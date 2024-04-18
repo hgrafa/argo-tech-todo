@@ -8,11 +8,26 @@ use App\Http\Requests\V1\UpdateTodoRequest;
 use App\Http\Resources\V1\TodoCollection;
 use App\Http\Resources\V1\TodoResource;
 use App\Models\Todo;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+/**
+ * @OA\Server(url="http://localhost:8000/api/v1")
+ * @OA\Tag(
+ *     name="Todos",
+ *     description="Todo API Endpoints"
+ * )
+ */
 class TodoController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/todos",
+     *     tags={"Todos"},
+     *     summary="Display a listing of todos.",
+     *     description="Get all todos from the database.",
+     *     @OA\Response(response="200", description="Display a listing of todos.")
+     * )
      */
     public function index()
     {
@@ -20,15 +35,7 @@ class TodoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     *
      */
     public function store(StoreTodoRequest $request)
     {
@@ -36,19 +43,28 @@ class TodoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/todos/{todo_id}",
+     *     tags={"Todos"},
+     *     summary="Display the specified todo.",
+     *     description="Get the specified todo from the database.",
+     *     @OA\Response(response="200", description="Display the specified todo."),
+     *     @OA\Response(response="404", description="Todo not found."),
+     *     @OA\Parameter(
+     *     name="todo_id",
+     *     in="path",
+     *     required=true,
+     *     )
+     * )
      */
-    public function show(Todo $todo)
+    public function show($id)
     {
-        return new TodoResource($todo);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Todo $todo)
-    {
-        //
+        try {
+            $todo = Todo::findOrFail($id);
+            return new TodoResource($todo);
+        } catch (ModelNotFoundException) {
+            return response()->json(['error' => 'Todo not found'], 404);
+        }
     }
 
     /**
@@ -56,14 +72,23 @@ class TodoController extends Controller
      */
     public function update(UpdateTodoRequest $request, Todo $todo)
     {
-        //
+        $todo->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Todo $todo)
+    public function destroy($id)
     {
-        //
+        try {
+            $todo = Todo::findOrFail($id);
+            $todo->deleteOrFail();
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Todo not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete the Todo'], 500);
+        }
+
+        return response()->json(['message' => 'Todo deleted successfully']);
     }
 }
