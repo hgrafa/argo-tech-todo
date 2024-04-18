@@ -10,10 +10,12 @@ services:
         env_file:
             - .env
         depends_on:
-            - postgre_db
+            - db
+        volumes:
+            - .:/var/www/html
 
-    postgre_db:
-        container_name: postgre_db
+    db:
+        container_name: db
         image: postgres:16
         ports:
             - "5432:5432"
