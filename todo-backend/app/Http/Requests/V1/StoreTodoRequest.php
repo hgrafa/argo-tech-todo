@@ -11,7 +11,7 @@ class StoreTodoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class StoreTodoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['string'],
+            'status' => ['string', 'in:Completed,Pending,Cancelled'],
+            'due_date' => ['date_format:Y-m-d H:i'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'due_date' => date('Y-m-d H:i', strtotime($this->dueDate)),
+        ]);
     }
 }

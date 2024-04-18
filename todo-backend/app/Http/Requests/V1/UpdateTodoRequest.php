@@ -21,11 +21,31 @@ class UpdateTodoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $httpMethod = $this->method();
+
+        $rules = [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string'],
-            'completed' => ['required', 'boolean'],
-            'due_date' => ['date_format:d-m-Y H:i'],
+            'status' => ['string', 'in:Completed,Pending,Cancelled'],
+            'due_date' => ['date_format:Y-m-d H:i'],
         ];
+
+        if ($httpMethod === 'PATCH') {
+            $rules = array_map(function ($rule) {
+                $rule[] = 'sometimes';
+                return $rule;
+            }, $rules);
+        }
+
+        return $rules;
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->dueDate) {
+            $this->merge([
+                'due_date' => date('Y-m-d H:i', strtotime($this->dueDate)),
+            ]);
+        }
     }
 }
