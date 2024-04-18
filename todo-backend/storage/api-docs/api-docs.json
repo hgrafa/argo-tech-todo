@@ -1,0 +1,60 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TODO API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1"
+        }
+    ],
+    "paths": {
+        "/todos": {
+            "get": {
+                "tags": [
+                    "Todos"
+                ],
+                "summary": "Display a listing of todos.",
+                "description": "Get all todos from the database.",
+                "operationId": "2e4b662ee9438616e63814dbc4614058",
+                "responses": {
+                    "200": {
+                        "description": "Display a listing of todos."
+                    }
+                }
+            }
+        },
+        "/todos/{todo_id}": {
+            "get": {
+                "tags": [
+                    "Todos"
+                ],
+                "summary": "Display the specified todo.",
+                "description": "Get the specified todo from the database.",
+                "operationId": "73bc7a00109d226ed68aa2636291f1b5",
+                "parameters": [
+                    {
+                        "name": "todo_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Display the specified todo."
+                    },
+                    "404": {
+                        "description": "Todo not found."
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Todos",
+            "description": "Todo API Endpoints"
+        }
+    ]
+}
