@@ -8,6 +8,7 @@ use App\Http\Requests\V1\UpdateTodoRequest;
 use App\Http\Resources\V1\TodoCollection;
 use App\Http\Resources\V1\TodoResource;
 use App\Models\Todo;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -42,6 +43,7 @@ class TodoController extends Controller
     public function store(StoreTodoRequest $request)
     {
         $todo = $request->user()->todos()->create($request->all());
+        return response()->json(['message' => 'Todo created successfully'], 201);
     }
 
     /**
