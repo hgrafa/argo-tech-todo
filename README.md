@@ -27,3 +27,25 @@ Todos os usuarios criado pela seed possuem senha `12345678`.
 npm install
 npm run start
 ```
+
+## screenshots
+
+### Sign In
+
+![sign in](./screenshots/sign-in.png)
+
+### Sign In Loading
+
+![loading sign in](./screenshots/loading-sign-in.png)
+
+### Sign Up
+
+![sign up](./screenshots/sign-up.png)
+
+### Profile tab
+
+![profile tab](./screenshots/profile-tab.png)
+
+### Inbox Tab
+
+![inbox tab](./screenshots/inbox-tab.png)
