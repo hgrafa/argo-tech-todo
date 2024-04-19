@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// TODO: change to .env file
+const BACKEND_URL = 'http://localhost:8000';
+
 export const api = axios.create({
-  baseURL: 'http://192.168.1.82:8000/api',
+  baseURL: `${BACKEND_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

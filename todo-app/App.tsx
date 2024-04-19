@@ -9,7 +9,7 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 
-import { Loading } from "@components/Loading";
+import { Loading } from "@components/loading";
 import { Routes } from "@routes/index";
 import { AuthContextProvider } from "@contexts/AuthContext";
 
