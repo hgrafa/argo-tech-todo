@@ -10,9 +10,6 @@ import {
 
 export type TodoContextProps = {
   todos: TodoDTO[];
-  createTodo: (todo: TodoDTO) => void;
-  updateTodo: (todo: TodoDTO) => void;
-  deleteTodo: (id: number) => void;
 };
 
 export const TodosContext = createContext<TodoContextProps>(
@@ -22,32 +19,13 @@ export const TodosContext = createContext<TodoContextProps>(
 export function TodosContextProvider({ children }: { children: ReactNode }) {
   const [todos, setTodos] = useState<TodoDTO[]>([]);
 
-  function createTodo(todo: TodoDTO) {
-    setTodos([...todos, todo]);
-  }
-
-  function updateTodo(todo: TodoDTO) {
-    const todoIndex = todos.findIndex((t) => t.id === todo.id);
-    if (todoIndex !== -1) {
-      const newTodos = [...todos];
-      newTodos[todoIndex] = todo;
-      setTodos(newTodos);
-    }
-  }
-
-  function deleteTodo(id: number) {
-    const newTodos = todos.filter((t) => t.id !== id);
-    setTodos(newTodos);
-  }
-
   async function loadTodos() {
     try {
       const { data: response } = await api.get("/v1/todos");
 
-      console.log(response);
-
       if (response.data) {
-        setTodos(response.data);
+        setTodos(response.data as TodoDTO[]);
+        console.log("from load:", todos);
       }
     } catch (error) {
       throw error;
@@ -55,15 +33,11 @@ export function TodosContextProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
-    loadTodos().then(() => console.log("todos: ", todos));
+    loadTodos();
   }, []);
 
   return (
-    <TodosContext.Provider
-      value={{ todos, createTodo, updateTodo, deleteTodo }}
-    >
-      {children}
-    </TodosContext.Provider>
+    <TodosContext.Provider value={{ todos }}>{children}</TodosContext.Provider>
   );
 }
 
