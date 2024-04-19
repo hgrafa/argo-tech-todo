@@ -4,6 +4,7 @@ import { AuthRoutes } from "./auth.routes";
 import { AppRoutes } from "./app.routes";
 import { useAuth } from "@contexts/AuthContext";
 import { Loading } from "@components/Loading";
+import { TodosContextProvider } from "@contexts/TodosContext";
 
 export function Routes() {
   const { user, isLoadingUserStorage } = useAuth();
@@ -14,7 +15,13 @@ export function Routes() {
 
   return (
     <NavigationContainer>
-      {user?.id ? <AppRoutes /> : <AuthRoutes />}
+      {user?.id ? (
+        <TodosContextProvider>
+          <AppRoutes />
+        </TodosContextProvider>
+      ) : (
+        <AuthRoutes />
+      )}
     </NavigationContainer>
   );
 }

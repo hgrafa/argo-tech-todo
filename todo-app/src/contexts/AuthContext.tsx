@@ -97,7 +97,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
-    loadUserData().then(() => console.log("user: ", user));
+    loadUserData();
   }, []);
 
   return (
