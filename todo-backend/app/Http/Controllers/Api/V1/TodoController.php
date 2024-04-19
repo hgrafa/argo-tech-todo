@@ -8,6 +8,7 @@ use App\Http\Requests\V1\UpdateTodoRequest;
 use App\Http\Resources\V1\TodoCollection;
 use App\Http\Resources\V1\TodoResource;
 use App\Models\Todo;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -31,7 +32,9 @@ class TodoController extends Controller
      */
     public function index()
     {
-        return new TodoCollection(Todo::paginate());
+        $user = auth()->user();
+        $todos = $user->todos()->paginate();
+        return new TodoCollection($todos);
     }
 
     /**
@@ -39,7 +42,8 @@ class TodoController extends Controller
      */
     public function store(StoreTodoRequest $request)
     {
-        return new TodoResource(Todo::create($request->all()));
+        $todo = $request->user()->todos()->create($request->all());
+        return response()->json(['message' => 'Todo created successfully'], 201);
     }
 
     /**
@@ -61,6 +65,11 @@ class TodoController extends Controller
     {
         try {
             $todo = Todo::findOrFail($id);
+
+            if($todo->user_id !== auth()->id()) {
+                return response()->json(['message' => 'Forbidden'], 403);
+            }
+
             return new TodoResource($todo);
         } catch (ModelNotFoundException) {
             return response()->json(['error' => 'Todo not found'], 404);
@@ -70,9 +79,10 @@ class TodoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTodoRequest $request, Todo $todo)
+    public function update(UpdateTodoRequest $request, $id)
     {
-        $todo->update($request->all());
+        $todo = $request->user()->todos()->findOrFail($id);
+        $todo->update($request->validated());
     }
 
     /**
