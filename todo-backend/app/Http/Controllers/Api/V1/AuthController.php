@@ -11,14 +11,15 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register(RegisterUserRequest $request) {
+    public function register(RegisterUserRequest $request)
+    {
         $user = User::create($request->all());
-        $accessToken = $user->createToken("authToken")->plainTextToken;
+        $user->createToken("authToken");
 
         return response()->json([
-            "user" => new UserResource($user),
-            "access_token" => $accessToken,
-            'token_type' => 'Bearer',
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email,
         ]);
     }
 
@@ -35,13 +36,26 @@ class AuthController extends Controller
         $accessToken = $user->createToken("authToken")->plainTextToken;
 
         return response()->json([
-            "user" => new UserResource($user),
-            "access_token" => $accessToken,
-            'token_type' => 'Bearer',
+            "accessToken" => $accessToken,
+            "user" => [
+                "id" => $user->id,
+                "name" => $user->name,
+                "email" => $user->email,
+            ],
         ]);
     }
 
-    public function logout(Request $request) {
+    public function getUser(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user) return response()->json(new UserResource($user));
+
+        return response()->json(['error' => 'Not logged in'], 401);
+    }
+
+    public function logout(Request $request)
+    {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Logged out']);

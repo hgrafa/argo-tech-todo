@@ -14,5 +14,10 @@ class Todo extends Model
         'due_date',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     use HasFactory;
 }

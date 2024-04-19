@@ -24,6 +24,9 @@ class TodoFactory extends Factory
             'status' => $status,
             'completed_at' => $status === "Completed" ? $this->faker->dateTimeThisMonth() : null,
             'due_date' => $this->faker->dateTimeThisMonth(),
+            'user_id' => function () {
+                return User::factory()->create()->id;
+            },
         ];
     }
 }
