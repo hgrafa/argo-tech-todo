@@ -17,11 +17,13 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->dateTime('completed_at')->nullable();
             $table->dateTime('due_date')->nullable();
-            $table->enum('status', ['Completed', 'Pending', 'Cancelled'])
-                ->default('Pending')
-                ->after('Completed');
+            $table->boolean('is_completed')->default(false);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+
+            $table->softDeletes();
+
+            $table->index(['user_id', 'is_completed']);
         });
     }
 
