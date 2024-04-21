@@ -20,4 +20,5 @@ RUN mkdir -p /var/www/html/cache
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/cache
 
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan l5-swagger:generate && \
+    php artisan serve --host=0.0.0.0 --port=8000
