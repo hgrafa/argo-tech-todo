@@ -19,7 +19,7 @@ class TodoResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'isCompleted' => $this->is_completed,
-            'dueDate' => $this->due_date ?? ''
+            'dueDate' => $this->due_date
         ];
     }
 }

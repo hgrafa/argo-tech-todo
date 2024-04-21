@@ -26,8 +26,8 @@ class UpdateTodoRequest extends FormRequest
         $rules = [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string'],
-            'status' => ['string', 'in:Completed,Pending,Cancelled'],
-            'due_date' => ['date_format:Y-m-d H:i'],
+            'isCompleted' => ['sometimes', 'boolean'],
+            'due_date' => ['sometimes', 'date_format:Y-m-d H:i'],
         ];
 
         if ($httpMethod === 'PATCH') {

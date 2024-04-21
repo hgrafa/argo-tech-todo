@@ -24,15 +24,15 @@ class StoreTodoRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string'],
-            'isCompleted' => ['boolean'],
-            'due_date' => ['date_format:Y-m-d H:i', 'after:now'],
+            'due_date' => ['sometimes', 'nullable', 'date_format:Y-m-d H:i'],
         ];
     }
 
     protected function prepareForValidation()
     {
+        $this->merge(['is_completed' => false]);
         $this->merge([
-            'due_date' => date('Y-m-d H:i', strtotime($this->dueDate)),
+            'due_date' => $this->dueDate ? date('Y-m-d H:i', strtotime($this->dueDate)) : null,
         ]);
     }
 }
