@@ -23,6 +23,7 @@ Route::group(
     ],
     function () {
         Route::apiResource('todos', TodoController::class);
+        Route::patch('/todos/{id}/complete', [TodoController::class, 'toggleComplete']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/user/data', [AuthController::class, 'getUser']);
     }
