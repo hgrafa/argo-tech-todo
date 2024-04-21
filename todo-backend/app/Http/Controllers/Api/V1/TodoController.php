@@ -9,6 +9,7 @@ use App\Http\Resources\V1\TodoCollection;
 use App\Http\Resources\V1\TodoResource;
 use App\Models\Todo;
 use Exception;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -43,7 +44,11 @@ class TodoController extends Controller
     public function store(StoreTodoRequest $request)
     {
         $todo = $request->user()->todos()->create($request->all());
-        return response()->json(['message' => 'Todo created successfully'], 201);
+
+        return response()->json([
+            'message' => 'Todo created successfully',
+            'todo' => new TodoResource($todo)
+        ], 201);
     }
 
     /**
@@ -72,6 +77,24 @@ class TodoController extends Controller
             }
 
             return new TodoResource($todo);
+        } catch (ModelNotFoundException) {
+            return response()->json(['error' => 'Todo not found'], 404);
+        }
+    }
+
+    public function toggleComplete($id)
+    {
+        try {
+            $todo = Todo::findOrFail($id);
+
+            if($todo->user_id !== auth()->id()) {
+                return response()->json(['message' => 'Forbidden'], 403);
+            }
+
+            $todo->is_completed = !$todo->is_completed;
+            $todo->save();
+
+            return response()->json(['message' => 'Todo completion status updated successfully']);
         } catch (ModelNotFoundException) {
             return response()->json(['error' => 'Todo not found'], 404);
         }
