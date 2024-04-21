@@ -24,8 +24,8 @@ class StoreTodoRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string'],
-            'status' => ['string', 'in:Completed,Pending,Cancelled'],
-            'due_date' => ['date_format:Y-m-d H:i'],
+            'isCompleted' => ['boolean'],
+            'due_date' => ['date_format:Y-m-d H:i', 'after:now'],
         ];
     }
 

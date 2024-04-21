@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,14 +17,16 @@ class TodoFactory extends Factory
      */
     public function definition(): array
     {
-        $status = $this->faker->randomElement(['Completed', 'Pending', 'Cancelled']);
+
+        $isCompleted = $this->faker->boolean;
+        $shouldHaveDueDate = $this->faker->randomFloat(2, 0, 1) > 0.85;
 
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'status' => $status,
-            'completed_at' => $status === "Completed" ? $this->faker->dateTimeThisMonth() : null,
-            'due_date' => $this->faker->dateTimeThisMonth(),
+            'is_completed' => $isCompleted,
+            'completed_at' => $isCompleted ? $this->faker->dateTimeThisMonth() : null,
+            'due_date' => $shouldHaveDueDate ? $this->faker->dateTimeThisMonth() : null,
             'user_id' => function () {
                 return User::factory()->create()->id;
             },
