@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  * @OA\Server(url="http://localhost:8000/api/v1")
  * @OA\Tag(
  *     name="Todos",
- *     description="Todo API Endpoints"
+ *     description="Todo CRUD Endpoints"
  * )
  */
 class TodoController extends Controller
@@ -54,6 +54,7 @@ class TodoController extends Controller
      *     description="Get the specified todo from the database.",
      *     @OA\Response(response="200", description="Display the specified todo."),
      *     @OA\Response(response="404", description="Todo not found."),
+     *     @OA\Response(response="403", description="Forbidden."),
      *     @OA\Parameter(
      *     name="todo_id",
      *     in="path",
