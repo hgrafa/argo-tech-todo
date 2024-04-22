@@ -1,51 +1,14 @@
 # Argo Tech TODO app
 
-## backend
+## Descrição
 
-```bash
-docker compose build
-docker compose up
-```
+Projeto de TODO para Argo Tech.
 
-## test users
+## Funcionalidades
 
-Caso queira testar com tarefas geradas automaticamente:
+- Ler, criar, editar, filtrar e deletar um Todo
+- Autenticar e criar um novo usuário
 
-```bash
-# reseta a base de dados
-docker exec php artisan migrate:reset
+## Observações
 
-# roda as migrations e as seeders para popular as tabelas
-docker exec php artisan migrate:fresh --seed
-```
-
-Todos os usuarios criado pela seed possuem senha `12345678`.
-
-## frontend
-
-```bash
-npm install
-npm run start
-```
-
-## screenshots
-
-### Sign In
-
-![sign in](./screenshots/sign-in.png)
-
-### Sign In Loading
-
-![loading sign in](./screenshots/loading-sign-in.png)
-
-### Sign Up
-
-![sign up](./screenshots/sign-up.png)
-
-### Profile tab
-
-![profile tab](./screenshots/profile-tab.png)
-
-### Inbox Tab
-
-![inbox tab](./screenshots/inbox-tab.png)
+- o backend está rodando na url `https://argo-tech-todo-1.onrender.com/`.
