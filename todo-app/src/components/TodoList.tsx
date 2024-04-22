@@ -1,32 +1,29 @@
-import { useTodos } from "@contexts/TodosContext";
-import {
-  Checkbox,
-  CheckboxIcon,
-  CheckboxIndicator,
-  CheckboxLabel,
-  CheckIcon,
-  VStack,
-} from "@gluestack-ui/themed";
+import { Divider, VStack } from "@gluestack-ui/themed";
+import { useTodos } from "@hooks/useTodos";
+import { LoadingSpinner } from "./LoadingSpinner";
+import { TodoItem } from "./TodoItem";
 
 export function TodoList() {
-  const { todos } = useTodos();
+  const { data: todos, isLoading, error } = useTodos();
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error || !todos) {
+    console.error("ops... something went wrong!");
+    return <VStack>Error</VStack>;
+  }
 
   return (
-    <VStack mt="$24" flex={1} gap="$3" flexDirection="column">
-      {todos.map(({ id, title }) => (
-        <Checkbox
-          key={id}
-          size="md"
-          isInvalid={false}
-          isDisabled={false}
-          value={title}
-        >
-          <CheckboxIndicator mr="$2">
-            <CheckboxIcon as={CheckIcon} />
-          </CheckboxIndicator>
-          <CheckboxLabel>{title}</CheckboxLabel>
-        </Checkbox>
+    <VStack w="$full" px="$6" gap="$4" flexDirection="column">
+      {todos.data.map((todo, index) => (
+        <>
+          <TodoItem key={index} todo={todo} />
+          <Divider w="$full" opacity="$5" />
+        </>
       ))}
+      {}
     </VStack>
   );
 }
