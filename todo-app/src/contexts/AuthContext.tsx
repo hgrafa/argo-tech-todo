@@ -54,7 +54,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
 
   async function signIn(email: string, password: string) {
     try {
-      const { data } = await api.post("/login", {
+      const { data } = await api.post("/v1/login", {
         email,
         password,
       });
@@ -72,6 +72,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
     try {
       setIsLoadingUserStorage(true);
       setUser({} as UserDTO);
+      await api.post("/v1/logout");
       await storageUserRemove();
       await storageAuthTokenRemove();
     } catch (error) {
