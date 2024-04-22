@@ -1,7 +1,7 @@
 export interface TodoDTO {
   id: number;
   title: string;
+  isCompleted: boolean;
   description?: string;
-  status: 'Completed'| 'Pending' | 'Cancelled';
   dueDate?: Date;
 }
