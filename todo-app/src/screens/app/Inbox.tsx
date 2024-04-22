@@ -1,21 +1,20 @@
-import { CreateTodoActiveSheet } from "@components/CreateTodoActiveSheet";
-import { TodoList } from "@components/TodoList";
+import { CreateTodoActiveSheet } from '@components/CreateTodoActiveSheet'
+import { TodoList } from '@components/TodoList'
 import {
   Button,
   ButtonIcon,
   Divider,
   Heading,
   ScrollView,
-  Text,
   VStack,
-} from "@gluestack-ui/themed";
-import { PlusIcon } from "lucide-react-native";
-import { useState } from "react";
+} from '@gluestack-ui/themed'
+import { PlusIcon } from 'lucide-react-native'
+import { useState } from 'react'
 
 export function Inbox() {
-  const [showActionsheet, setShowActionsheet] = useState(false);
+  const [showActionsheet, setShowActionsheet] = useState(false)
 
-  const toggleActionsheet = () => setShowActionsheet(!showActionsheet);
+  const toggleActionsheet = () => setShowActionsheet(!showActionsheet)
 
   return (
     <>
@@ -57,8 +56,8 @@ export function Inbox() {
         shadowRadius="$3"
         shadowColor="$backgroundDark900"
       >
-        <ButtonIcon as={PlusIcon} size={28} />
+        <ButtonIcon as={PlusIcon} style={{ width: 28, height: 28 }} />
       </Button>
     </>
-  );
+  )
 }

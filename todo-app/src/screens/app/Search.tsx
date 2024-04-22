@@ -1,4 +1,4 @@
-import { Center, Text } from "@gluestack-ui/themed";
+import { Center, Text } from '@gluestack-ui/themed'
 
 export function Search() {
   return (
@@ -7,5 +7,5 @@ export function Search() {
         Search
       </Text>
     </Center>
-  );
+  )
 }

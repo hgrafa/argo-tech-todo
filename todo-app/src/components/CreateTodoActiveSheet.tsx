@@ -11,27 +11,25 @@ import {
   InputField,
   KeyboardAvoidingView,
   VStack,
-} from "@gluestack-ui/themed";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTodos } from "@hooks/useTodos";
-import { api } from "@services/api";
-
-import { SendIcon } from "lucide-react-native";
-import { Controller, useForm } from "react-hook-form";
-import { useSWRConfig } from "swr";
-import { z } from "zod";
+} from '@gluestack-ui/themed'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { api } from '@utils/api'
+import { SendIcon } from 'lucide-react-native'
+import { Controller, useForm } from 'react-hook-form'
+import { useSWRConfig } from 'swr'
+import { z } from 'zod'
 
 interface CreateTodoActiveSheetProps {
-  showActionsheet: boolean;
-  toggleActionsheet: () => void;
+  showActionsheet: boolean
+  toggleActionsheet: () => void
 }
 
 const NewTodoSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
-});
+})
 
-type NewTodoInputs = z.infer<typeof NewTodoSchema>;
+type NewTodoInputs = z.infer<typeof NewTodoSchema>
 
 export function CreateTodoActiveSheet({
   showActionsheet,
@@ -44,15 +42,15 @@ export function CreateTodoActiveSheet({
     formState: { isValid, isValidating },
   } = useForm<NewTodoInputs>({
     resolver: zodResolver(NewTodoSchema),
-  });
+  })
 
-  const { mutate } = useSWRConfig();
+  const { mutate } = useSWRConfig()
 
   async function handleNewTodo(newTodo: NewTodoInputs) {
-    toggleActionsheet();
-    await api.post("/v1/todos", newTodo);
-    mutate("/v1/todos");
-    reset();
+    toggleActionsheet()
+    await api.post('/v1/todos', newTodo)
+    mutate('/v1/todos')
+    reset()
   }
 
   return (
@@ -60,9 +58,9 @@ export function CreateTodoActiveSheet({
       <KeyboardAvoidingView
         behavior="position"
         style={{
-          position: "relative",
+          position: 'relative',
           flex: 1,
-          justifyContent: "flex-end",
+          justifyContent: 'flex-end',
         }}
       >
         <ActionsheetBackdrop />
@@ -119,5 +117,5 @@ export function CreateTodoActiveSheet({
         </ActionsheetContent>
       </KeyboardAvoidingView>
     </Actionsheet>
-  );
+  )
 }

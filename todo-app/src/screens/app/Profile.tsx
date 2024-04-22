@@ -1,4 +1,4 @@
-import { useAuth } from "@contexts/AuthContext";
+import { useAuth } from '@contexts/AuthContext'
 import {
   Button,
   ButtonText,
@@ -6,16 +6,16 @@ import {
   ScrollView,
   Text,
   VStack,
-} from "@gluestack-ui/themed";
-import { CircleUserRoundIcon } from "lucide-react-native";
+} from '@gluestack-ui/themed'
+import { CircleUserRoundIcon } from 'lucide-react-native'
 
 export function Profile() {
-  const { user, signOut } = useAuth();
+  const { user, signOut } = useAuth()
 
-  const { email, name } = user!;
+  const { email, name } = user!
 
   async function handleLogOut() {
-    await signOut();
+    await signOut()
   }
 
   return (
@@ -49,5 +49,5 @@ export function Profile() {
         </Button>
       </VStack>
     </ScrollView>
-  );
+  )
 }

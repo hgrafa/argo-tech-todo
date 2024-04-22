@@ -1,9 +1,11 @@
-import { TodoDTO } from '@dtos/todoDTO'
+import { Page } from '@dtos/page'
+import { Todo } from '@dtos/todo'
+
 import { useApi } from './useApi'
-import { Page } from '@dtos/Page'
 
-export function useTodos(id?: number) {
-  const { data, isLoading, error, mutate } = useApi<Page<TodoDTO>>('/v1/todos')
+export function useTodos() {
+  const { data, isLoading, error, mutate, isValidating } =
+    useApi<Page<Todo>>('/v1/todos')
 
-  return { data, isLoading, error, mutate }
+  return { data, isLoading, error, mutate, isValidating }
 }

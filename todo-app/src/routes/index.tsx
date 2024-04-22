@@ -1,20 +1,18 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { LoadingSpinner } from '@components/LoadingSpinner'
+import { useAuth } from '@contexts/AuthContext'
+import { NavigationContainer } from '@react-navigation/native'
 
-import { AuthRoutes } from "./auth.routes";
-import { AppRoutes } from "./app.routes";
-import { useAuth } from "@contexts/AuthContext";
-import { LoadingSpinner } from "@components/LoadingSpinner";
+import { AppRoutes } from './app.routes'
+import { AuthRoutes } from './auth.routes'
 
 export function Routes() {
-  const { user, isLoadingUserStorage } = useAuth();
+  const { user, isLoadingUserStorage } = useAuth()
 
-  if (isLoadingUserStorage) return <LoadingSpinner />;
-
-  console.log("user from routes: ", user);
+  if (isLoadingUserStorage) return <LoadingSpinner />
 
   return (
     <NavigationContainer>
       {user?.id ? <AppRoutes /> : <AuthRoutes />}
     </NavigationContainer>
-  );
+  )
 }

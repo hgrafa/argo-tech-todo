@@ -1,23 +1,22 @@
-import { StatusBar, Text, View } from "react-native";
+/* eslint-disable camelcase */
 
-import { GluestackUIProvider } from "@gluestack-ui/themed";
-import { config } from "@gluestack-ui/config";
-
+import { LoadingSpinner } from '@components/LoadingSpinner'
+import { AuthContextProvider } from '@contexts/AuthContext'
 import {
-  useFonts,
   Inter_400Regular,
   Inter_700Bold,
-} from "@expo-google-fonts/inter";
-
-import { Routes } from "@routes/index";
-import { AuthContextProvider } from "@contexts/AuthContext";
-import { LoadingSpinner } from "@components/LoadingSpinner";
+  useFonts,
+} from '@expo-google-fonts/inter'
+import { config } from '@gluestack-ui/config'
+import { GluestackUIProvider } from '@gluestack-ui/themed'
+import { Routes } from '@routes/index'
+import { StatusBar } from 'react-native'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_700Bold,
-  });
+  })
 
   return (
     <GluestackUIProvider config={config}>
@@ -31,5 +30,5 @@ export default function App() {
         {fontsLoaded ? <Routes /> : <LoadingSpinner />}
       </AuthContextProvider>
     </GluestackUIProvider>
-  );
+  )
 }

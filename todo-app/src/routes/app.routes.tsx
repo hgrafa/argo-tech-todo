@@ -1,42 +1,35 @@
 import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
-
-import { Platform } from "react-native";
-
-import { Inbox } from "@screens/app/Inbox";
-import { Search } from "@screens/app/Search";
-import { Profile } from "@screens/app/Profile";
-
-import {
-  CircleUserRoundIcon,
-  InboxIcon,
-  SearchIcon,
-} from "lucide-react-native";
+} from '@react-navigation/bottom-tabs'
+import { Inbox } from '@screens/app/Inbox'
+import { Profile } from '@screens/app/Profile'
+import { Search } from '@screens/app/Search'
+import { CircleUserRoundIcon, InboxIcon, SearchIcon } from 'lucide-react-native'
+import { Platform } from 'react-native'
 
 type AppRoutes = {
-  today: undefined;
-  inbox: undefined;
-  search: undefined;
-  profile: undefined;
-};
+  today: undefined
+  inbox: undefined
+  search: undefined
+  profile: undefined
+}
 
-export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
+export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>
 
-const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>();
+const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>()
 
 export function AppRoutes() {
   return (
     <Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#818cf8",
-        tabBarInactiveTintColor: "#737373",
+        tabBarActiveTintColor: '#818cf8',
+        tabBarInactiveTintColor: '#737373',
         tabBarStyle: {
-          borderBlockColor: "#262626",
-          backgroundColor: "#262626",
-          height: Platform.OS === "android" ? "auto" : 80,
+          borderBlockColor: '#262626',
+          backgroundColor: '#262626',
+          height: Platform.OS === 'android' ? 'auto' : 80,
         },
       }}
     >
@@ -64,5 +57,5 @@ export function AppRoutes() {
         }}
       />
     </Navigator>
-  );
+  )
 }
