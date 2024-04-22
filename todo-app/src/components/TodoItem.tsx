@@ -13,7 +13,6 @@ import {
   ModalFooter,
   ModalHeader,
   Pressable,
-  set,
   Text,
 } from '@gluestack-ui/themed'
 import { api } from '@utils/api'
@@ -21,27 +20,32 @@ import { CheckIcon, FileTextIcon } from 'lucide-react-native'
 import { useState } from 'react'
 import { useSWRConfig } from 'swr'
 
+import { EditTodoActiveSheet } from './EditTodoActiveSheet'
+
 export interface TodoItemProps {
   todo: Todo
 }
 
-export function TodoItem({ todo }: TodoItemProps) {
+export function TodoItem({ todo: todoProps }: TodoItemProps) {
+  const [todo, setTodo] = useState(todoProps)
   const { id, title, description, isCompleted } = todo
   const [completed, setCompleted] = useState(isCompleted)
   const [showModal, setShowModal] = useState(false)
+  const [showEdition, setShowEdition] = useState(false)
 
   const { mutate } = useSWRConfig()
 
   async function toggleCompleted() {
     setCompleted(!completed)
     await api.patch(`/v1/todos/${id}/complete`)
+    mutate('/v1/todos')
   }
 
-  function toggleDescription() {
-    setShowModal(!showModal)
+  function toggleEditTodo() {
+    setShowEdition(!showEdition)
   }
 
-  async function deleteTodo() {
+  async function handleDeleteTodo() {
     setShowModal(false)
     await api.delete(`/v1/todos/${id}`)
     mutate('/v1/todos')
@@ -77,7 +81,7 @@ export function TodoItem({ todo }: TodoItemProps) {
         ></Pressable>
       )}
       <Pressable
-        onPress={toggleDescription}
+        onPress={() => setShowModal(true)}
         flexDirection="row"
         alignItems="center"
         w="$full"
@@ -112,9 +116,7 @@ export function TodoItem({ todo }: TodoItemProps) {
               size="sm"
               action="secondary"
               mr="$3"
-              onPress={() => {
-                setShowModal(false)
-              }}
+              onPress={toggleEditTodo}
             >
               <ButtonText>Edit</ButtonText>
             </Button>
@@ -122,7 +124,7 @@ export function TodoItem({ todo }: TodoItemProps) {
               size="sm"
               action="primary"
               borderWidth="$0"
-              onPress={deleteTodo}
+              onPress={handleDeleteTodo}
               bg="$error700"
               $hover-bg="$error800"
               $active-bg="$error900"
@@ -132,6 +134,12 @@ export function TodoItem({ todo }: TodoItemProps) {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <EditTodoActiveSheet
+        showActionsheet={showEdition}
+        toggleActionsheet={toggleEditTodo}
+        setTodo={setTodo}
+        todo={todo}
+      />
     </HStack>
   )
 }

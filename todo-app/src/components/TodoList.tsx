@@ -5,7 +5,7 @@ import { LoadingSpinner } from './LoadingSpinner'
 import { TodoItem } from './TodoItem'
 
 export function TodoList() {
-  const { data: todos, isLoading, error } = useTodos()
+  const { data: todos, isLoading, error, isValidating } = useTodos()
 
   if (isLoading) {
     return <LoadingSpinner />
@@ -24,7 +24,7 @@ export function TodoList() {
           <Divider w="$full" opacity="$5" />
         </VStack>
       ))}
-      {}
+      {isValidating && <LoadingSpinner />}
     </VStack>
   )
 }
