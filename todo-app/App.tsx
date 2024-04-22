@@ -9,9 +9,9 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 
-import { Loading } from "@components/loading";
 import { Routes } from "@routes/index";
 import { AuthContextProvider } from "@contexts/AuthContext";
+import { LoadingSpinner } from "@components/LoadingSpinner";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,7 +28,7 @@ export default function App() {
       />
 
       <AuthContextProvider>
-        {fontsLoaded ? <Routes /> : <Loading />}
+        {fontsLoaded ? <Routes /> : <LoadingSpinner />}
       </AuthContextProvider>
     </GluestackUIProvider>
   );
