@@ -39,7 +39,6 @@ export function SignIn() {
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitted, isSubmitting },
   } = useForm<SignInInputs>({
     resolver: zodResolver(SignInSchema),
