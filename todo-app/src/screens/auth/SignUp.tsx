@@ -1,5 +1,7 @@
+import { useAuth } from '@contexts/AuthContext'
 import {
   Button,
+  ButtonSpinner,
   ButtonText,
   Center,
   Input,
@@ -9,65 +11,61 @@ import {
   ScrollView,
   Text,
   VStack,
-} from "@gluestack-ui/themed";
-import { useNavigation } from "@react-navigation/native";
-import { EyeIcon, EyeOffIcon, SquareCheckBig } from "lucide-react-native";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@contexts/AuthContext";
-import { ButtonSpinner } from "@gluestack-ui/themed";
-import { api } from "@services/api";
+} from '@gluestack-ui/themed'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigation } from '@react-navigation/native'
+import { api } from '@utils/api'
+import { EyeIcon, EyeOffIcon, SquareCheckBig } from 'lucide-react-native'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const SignUpSchema = z
   .object({
     name: z.string(),
-    email: z.string().email("Email is required."),
+    email: z.string().email('Email is required.'),
     password: z.string(),
     confirmPassword: z.string(),
   })
   .refine(
     ({ password, confirmPassword }) => {
-      return password === confirmPassword;
+      return password === confirmPassword
     },
     {
-      message: "As senhas não coincidem",
-      path: ["confirmPassword"],
-    }
-  );
+      message: 'As senhas não coincidem',
+      path: ['confirmPassword'],
+    },
+  )
 
-type SignUpInputs = z.infer<typeof SignUpSchema>;
+type SignUpInputs = z.infer<typeof SignUpSchema>
 
 export function SignUp() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitted, isSubmitting, isValid },
   } = useForm<SignUpInputs>({
     resolver: zodResolver(SignUpSchema),
-  });
+  })
 
-  const { signIn } = useAuth();
+  const { signIn } = useAuth()
 
   function toggleShowPassword() {
-    setShowPassword((prev) => !prev);
+    setShowPassword((prev) => !prev)
   }
 
   function handleGoBackToSignIn() {
-    navigation.goBack();
+    navigation.goBack()
   }
 
   async function handleSignUp({ name, email, password }: SignUpInputs) {
-    const { data } = await api.post("/register", { name, email, password });
-    console.log(data);
-    await signIn(email, password);
+    const { data } = await api.post('/register', { name, email, password })
+    console.log(data)
+    await signIn(email, password)
   }
 
   return (
@@ -168,7 +166,7 @@ export function SignUp() {
                     onChangeText={onChange}
                     value={value}
                     color="white"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                   />
                   <InputSlot pr="$3" onPress={toggleShowPassword}>
                     <InputIcon
@@ -201,7 +199,7 @@ export function SignUp() {
                     onChangeText={onChange}
                     value={value}
                     color="white"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                   />
                   <InputSlot pr="$3" onPress={toggleShowPassword}>
                     <InputIcon
@@ -240,5 +238,5 @@ export function SignUp() {
         </Center>
       </VStack>
     </ScrollView>
-  );
+  )
 }

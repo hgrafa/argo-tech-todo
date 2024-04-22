@@ -1,9 +1,9 @@
+import { useAuth } from '@contexts/AuthContext'
 import {
   Button,
   ButtonSpinner,
   ButtonText,
   Center,
-  Heading,
   Input,
   InputField,
   InputIcon,
@@ -11,50 +11,46 @@ import {
   ScrollView,
   Text,
   VStack,
-} from "@gluestack-ui/themed";
-
-import { useNavigation } from "@react-navigation/native";
-import { AuthNagivatorRoutesProps } from "@routes/auth.routes";
-import { EyeIcon, EyeOffIcon, SquareCheckBig } from "lucide-react-native";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@contexts/AuthContext";
+} from '@gluestack-ui/themed'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigation } from '@react-navigation/native'
+import { AuthNagivatorRoutesProps } from '@routes/auth.routes'
+import { EyeIcon, EyeOffIcon, SquareCheckBig } from 'lucide-react-native'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const SignInSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.string().email('Invalid email address'),
   password: z.string(),
-});
+})
 
-type SignInInputs = z.infer<typeof SignInSchema>;
+type SignInInputs = z.infer<typeof SignInSchema>
 
 export function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
-  const navigation = useNavigation<AuthNagivatorRoutesProps>();
+  const [showPassword, setShowPassword] = useState(false)
+  const navigation = useNavigation<AuthNagivatorRoutesProps>()
 
-  const { signIn } = useAuth();
+  const { signIn } = useAuth()
 
   const {
     control,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitted, isSubmitting },
   } = useForm<SignInInputs>({
     resolver: zodResolver(SignInSchema),
-  });
+  })
 
   function toggleShowPassword() {
-    setShowPassword((prev) => !prev);
+    setShowPassword((prev) => !prev)
   }
 
   async function handleSignIn({ email, password }: SignInInputs) {
-    await signIn(email, password);
+    await signIn(email, password)
   }
 
   function handleSignUp() {
-    navigation.navigate("signUp");
+    navigation.navigate('signUp')
   }
 
   return (
@@ -129,7 +125,7 @@ export function SignIn() {
                     onChangeText={onChange}
                     value={value}
                     color="white"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                   />
                   <InputSlot pr="$3" onPress={toggleShowPassword}>
                     <InputIcon
@@ -161,11 +157,12 @@ export function SignIn() {
             isDisabled={isSubmitting}
           >
             <ButtonText color="$white">
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
               Dont't have an Account? Sign up
             </ButtonText>
           </Button>
         </Center>
       </VStack>
     </ScrollView>
-  );
+  )
 }
