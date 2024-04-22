@@ -5,12 +5,13 @@
     "baseUrl": "./",
     "paths": {
       "@dtos/*": ["src/dtos/*"],
+      "@types/*": ["src/types/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@screens/*": ["./src/screens/*"],
       "@storage/*": ["./src/storage/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@services/*": ["./src/services/*"],
+      "@utils/*": ["src/services/*"],
+      "@services/*": ["src/utils/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@contexts/*": ["./src/contexts/*"],
       "@routes/*": ["./src/routes/*"]
